@@ -1,12 +1,24 @@
 package pl.dream.depicshop;
 
 import org.bukkit.plugin.java.JavaPlugin;
+import pl.dream.depicshop.data.LocalPlayer;
+import pl.dream.depicshop.listener.PlayerJoinListener;
+import pl.dream.depicshop.listener.PlayerQuitListener;
+
+import java.util.HashMap;
+import java.util.UUID;
 
 public final class DEpicShop extends JavaPlugin {
 
+    public HashMap<UUID, LocalPlayer> players;
+
     @Override
     public void onEnable() {
-        // Plugin startup logic
+        players = new HashMap<>();
+
+        //Load listeners
+        getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
+        getServer().getPluginManager().registerEvents(new PlayerQuitListener(this), this);
     }
 
     @Override
