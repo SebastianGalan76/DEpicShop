@@ -59,7 +59,7 @@ public class ShopCategory {
         return null;
     }
 
-    public String getTitle(){
+    public String getInventoryTitle(){
         return title;
     }
     public int getInventorySize(){

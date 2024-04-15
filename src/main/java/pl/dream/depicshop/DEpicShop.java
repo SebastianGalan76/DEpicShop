@@ -1,6 +1,7 @@
 package pl.dream.depicshop;
 
 import org.bukkit.plugin.java.JavaPlugin;
+import pl.dream.depicshop.controller.ConfigController;
 import pl.dream.depicshop.data.LocalPlayer;
 import pl.dream.depicshop.data.ShopCategory;
 import pl.dream.depicshop.listener.PlayerJoinListener;
@@ -12,6 +13,8 @@ import java.util.UUID;
 public final class DEpicShop extends JavaPlugin {
     public HashMap<UUID, LocalPlayer> players;
     public HashMap<String, ShopCategory> categories;
+
+    public ConfigController configController;
 
     @Override
     public void onEnable() {
@@ -38,5 +41,6 @@ public final class DEpicShop extends JavaPlugin {
         Locale.loadMessages(this);
 
         saveDefaultConfig();
+        configController = new ConfigController(this);
     }
 }
