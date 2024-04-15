@@ -4,7 +4,7 @@ import org.bukkit.inventory.ItemStack;
 import pl.dream.depicshop.data.LocalPlayer;
 import pl.dream.depicshop.data.price.Price;
 
-public class ShopItem extends Item implements IItem{
+public class ShopItem extends Item {
     public final Price buyPrice;
     public final Price sellPrice;
 

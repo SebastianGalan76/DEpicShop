@@ -3,7 +3,7 @@ package pl.dream.depicshop.data.item;
 import org.bukkit.inventory.ItemStack;
 import pl.dream.depicshop.data.LocalPlayer;
 
-public class CategoryItem extends Item implements IItem {
+public class CategoryItem extends Item {
     private final String categoryName;
 
     public CategoryItem(ItemStack itemStack, String categoryName) {

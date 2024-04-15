@@ -7,7 +7,7 @@ import pl.dream.depicshop.data.LocalPlayer;
 
 import java.util.List;
 
-public class CommandItem extends Item implements IItem {
+public class CommandItem extends Item {
     private final List<String> commands;
     private final CommandSender console;
 
