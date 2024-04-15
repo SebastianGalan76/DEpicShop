@@ -1,3 +1,13 @@
+prices:
+  default:
+    symbol: "$"
+    color: "&#323232"
+  token:
+    symbol: " Ⓣ"
+    color: "&#323232"
+  time:
+    symbol: " ⏱"
+    color: "&#323232"
 items:
   playerHead:
     material: PLAYER_HEAD

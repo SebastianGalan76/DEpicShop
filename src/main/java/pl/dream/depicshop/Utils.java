@@ -23,14 +23,10 @@ public class Utils {
     }
 
     public static String getMoneyFormat(double money){
-        if(money - (int)money >0){
+        if(money - (int)money > 0){
             return String.format("%,.2f", money);
         }
         return String.format("%,.0f", money);
-    }
-
-    public static float roundValue(float value){
-        return Math.round(value * 100.0f) / 100.0f;
     }
 
    public static boolean checkPrices(Price buyPrice, Price sellPrice){
