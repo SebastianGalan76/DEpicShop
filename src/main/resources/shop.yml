@@ -1,0 +1,73 @@
+categories:
+  main:
+    title: '&cSklep'
+    row: 6
+    pages:
+      0:
+        items:
+          0:
+            material: DIRT
+            buy: 30
+            sell: 15
+          1:
+            material: SAND
+            name: '&9Piasek'
+            category: test
+          8:
+            material: CHEST
+            name: '&cSprzedaj wszystko'
+            category: sell_all
+          9:
+            material: DIAMOND_AXE
+            name: '&cSuper oferty'
+            category: promotion
+          10:
+            alias: test/0/5
+          11:
+            material: IRON_PICKAXE
+            price:
+              buy: 400
+              sell: 32
+  test:
+    title: '&7sada'
+    row: 3
+    pages:
+      0:
+        items:
+          5:
+            material: DIAMOND
+            price:
+              buy: 400
+              sell: 32
+      1:
+        items:
+          6:
+            material: IRON_INGOT
+            price:
+              buy: 4500
+              sell: 32
+      2:
+        items:
+          6:
+            material: EMERALD
+            price:
+              buy: 4500
+              sell: 320
+          2:
+            material: EMERALD_BLOCK
+            name: "&cElo melo"
+            category: test2
+  test2:
+    title: '&7sada'
+    row: 3
+    items:
+      1:
+        material: IRON_INGOT
+        tokenPrice:
+          buy: 4500
+        commands:
+          - "bc {PLAYER} buy {AMOUNT}"
+      2:
+        material: SAND
+        timePrice:
+          sell: 4500

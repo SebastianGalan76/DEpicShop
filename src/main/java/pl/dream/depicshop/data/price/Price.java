@@ -4,6 +4,8 @@ import java.text.DecimalFormat;
 
 public class Price {
     private final double defaultValue;
+    public static String symbol;
+    public static String color;
 
     public Price(double defaultValue) {
         this.defaultValue = defaultValue;

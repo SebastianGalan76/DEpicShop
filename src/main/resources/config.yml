@@ -1,0 +1,35 @@
+prices:
+  default:
+    symbol: "$"
+    color: "&#323232"
+  token:
+    symbol: " Ⓣ"
+    color: "&#323232"
+  time:
+    symbol: " ⏱"
+    color: "&#323232"
+items:
+  playerHead:
+    material: PLAYER_HEAD
+    name: "&a{PLAYER}"
+    lore:
+      - "{BALANCE_MONEY}"
+      - "{BALANCE_TOKENS}"
+      - "{BALANCE_TIME}"
+  moveBack:
+    material: BARRIER
+    name: "&c[COFNIJ]"
+  nextPage:
+    exist:
+      material: DIAMOND
+      name: "Następna strona"
+    notExist:
+      material: EMERALD
+      name: "Brak następnej strony"
+  previousPage:
+    exist:
+      material: DIAMOND
+      name: "Poprzednia strona"
+    notExist:
+      material: EMERALD
+      name: "Brak poprzedniej strony"
