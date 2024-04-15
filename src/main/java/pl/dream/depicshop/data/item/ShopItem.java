@@ -5,12 +5,14 @@ import pl.dream.depicshop.data.LocalPlayer;
 import pl.dream.depicshop.data.price.Price;
 
 public class ShopItem extends Item {
+    private final String id;
     public final Price buyPrice;
     public final Price sellPrice;
 
-    public ShopItem(ItemStack itemStack, Price buyPrice, Price sellPrice) {
+    public ShopItem(String id, ItemStack itemStack, Price buyPrice, Price sellPrice) {
         super(itemStack);
 
+        this.id = id;
         this.buyPrice = buyPrice;
         this.sellPrice = sellPrice;
     }

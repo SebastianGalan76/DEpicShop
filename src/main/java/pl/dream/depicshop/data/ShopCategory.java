@@ -1,6 +1,8 @@
 package pl.dream.depicshop.data;
 
 import pl.dream.depicshop.data.item.IItem;
+import pl.dream.depicshop.data.item.Item;
+
 import javax.annotation.Nullable;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +20,7 @@ public class ShopCategory {
         items = new ArrayList<>();
     }
 
-    public int addNewPage(IItem[] items){
+    public int addPage(IItem[] items){
         int pageSize = items.length;
         int requiredRows = pageSize/9;
         if(pageSize % 9 != 0){
@@ -59,6 +61,17 @@ public class ShopCategory {
         return null;
     }
 
+    public void updateItem(int page, int slot, IItem item){
+        IItem[] itemsOnPage = items.get(page);
+
+        if(slot<itemsOnPage.length){
+            itemsOnPage[slot] = item;
+        }
+    }
+
+    public int getPageAmount(){
+        return items.size();
+    }
     public String getInventoryTitle(){
         return title;
     }
