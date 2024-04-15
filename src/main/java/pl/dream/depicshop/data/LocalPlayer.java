@@ -5,8 +5,8 @@ import pl.dream.depicshop.DEpicShop;
 
 public class LocalPlayer {
     private final DEpicShop plugin;
-    private final Player player;
 
+    public final Player player;
     public final Path path;
 
     public LocalPlayer(DEpicShop plugin, Player player) {
@@ -14,5 +14,9 @@ public class LocalPlayer {
         this.player = player;
 
         path = new Path();
+    }
+
+    public void openCategory(String categoryName){
+
     }
 }

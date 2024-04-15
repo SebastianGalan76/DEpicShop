@@ -9,8 +9,8 @@ import java.util.HashMap;
 import java.util.UUID;
 
 public final class DEpicShop extends JavaPlugin {
-
     public HashMap<UUID, LocalPlayer> players;
+
 
     @Override
     public void onEnable() {
