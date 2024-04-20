@@ -12,10 +12,12 @@ public class ConfigController {
     private final DEpicShop plugin;
     private final FileConfiguration config;
 
-    public ItemStack playerHead;
+    public ItemStack playerHeadItem;
     public ItemStack moveBackItem;
-    public ItemStack nextPageExist, nextPageNotExist;
-    public ItemStack previousPageExist, previousPageNotExist;
+    public ItemStack nextPageExistItem, nextPageNotExistItem;
+    public ItemStack previousPageExistItem, previousPageNotExistItem;
+    public ItemStack addAmountItem, subtractAmountItem;
+
 
     public ConfigController(DEpicShop plugin) {
         this.plugin = plugin;
@@ -27,15 +29,18 @@ public class ConfigController {
     }
 
     private void loadItems(){
-        playerHead = Config.getItemStack(config, "items.playerHead");
+        playerHeadItem = Config.getItemStack(config, "items.playerHead");
 
         moveBackItem = Config.getItemStack(config, "items.moveBack");
 
-        nextPageExist = Config.getItemStack(config, "items.nextPage.exist");
-        nextPageNotExist = Config.getItemStack(config, "items.nextPage.notExist");
+        nextPageExistItem = Config.getItemStack(config, "items.nextPage.exist");
+        nextPageNotExistItem = Config.getItemStack(config, "items.nextPage.notExist");
 
-        previousPageExist = Config.getItemStack(config, "items.previousPage.exist");
-        previousPageNotExist= Config.getItemStack(config, "items.previousPage.notExist");
+        previousPageExistItem = Config.getItemStack(config, "items.previousPage.exist");
+        previousPageNotExistItem = Config.getItemStack(config, "items.previousPage.notExist");
+
+        addAmountItem = Config.getItemStack(config, "items.addAmount");
+        subtractAmountItem = Config.getItemStack(config, "items.subtractAmount");
     }
 
     private void loadPrices(){

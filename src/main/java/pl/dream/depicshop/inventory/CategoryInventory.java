@@ -49,17 +49,17 @@ public class CategoryInventory extends ProtectedInventory {
         inv.setItem(getMoveBackButtonIndex(), convertItem(plugin.configController.moveBackItem.clone()));
 
         if(currentPage < pageAmount - 1){
-            inv.setItem(getNextPageButtonIndex(), convertItem(plugin.configController.nextPageExist.clone()));
+            inv.setItem(getNextPageButtonIndex(), convertItem(plugin.configController.nextPageExistItem.clone()));
         }
         else{
-            inv.setItem(getNextPageButtonIndex(), convertItem(plugin.configController.nextPageNotExist.clone()));
+            inv.setItem(getNextPageButtonIndex(), convertItem(plugin.configController.nextPageNotExistItem.clone()));
         }
 
         if(currentPage > 0){
-            inv.setItem(getPreviousPageButtonIndex(), convertItem(plugin.configController.previousPageExist.clone()));
+            inv.setItem(getPreviousPageButtonIndex(), convertItem(plugin.configController.previousPageExistItem.clone()));
         }
         else{
-            inv.setItem(getPreviousPageButtonIndex(), convertItem(plugin.configController.previousPageNotExist.clone()));
+            inv.setItem(getPreviousPageButtonIndex(), convertItem(plugin.configController.previousPageNotExistItem.clone()));
         }
 
         inv.setItem(inventorySize - 9, localPlayer.getPlayerHead());
