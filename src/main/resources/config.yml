@@ -14,7 +14,7 @@ items:
     name: "&a{PLAYER}"
     lore:
       - "{BALANCE_MONEY}"
-      - "{BALANCE_TOKENS}"
+      - "{BALANCE_TOKEN}"
       - "{BALANCE_TIME}"
   moveBack:
     material: BARRIER
@@ -33,3 +33,17 @@ items:
     notExist:
       material: EMERALD
       name: "Brak poprzedniej strony"
+  addAmount:
+    material: GREEN_STAINED_GLASS_PANE
+    name: "&aZwiększ ilość o {VALUE}"
+    lore:
+      - ""
+      - ""
+      - ""
+  subtractAmount:
+    material: RED_STAINED_GLASS_PANE
+    name: "&cZmniejsz ilość o {VALUE}"
+    lore:
+      - ""
+      - ""
+      - ""

@@ -1,11 +1,13 @@
 package pl.dream.depicshop;
 
 import org.bukkit.plugin.java.JavaPlugin;
+import pl.dream.depicshop.command.ShopCommand;
 import pl.dream.depicshop.controller.ConfigController;
 import pl.dream.depicshop.controller.ShopController;
 import pl.dream.depicshop.data.LocalPlayer;
 import pl.dream.depicshop.data.ShopCategory;
 import pl.dream.depicshop.data.item.ShopItem;
+import pl.dream.depicshop.listener.InventoryClickListener;
 import pl.dream.depicshop.listener.PlayerJoinListener;
 import pl.dream.depicshop.listener.PlayerQuitListener;
 
@@ -28,6 +30,10 @@ public final class DEpicShop extends JavaPlugin {
         //Load listeners
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerQuitListener(this), this);
+        getServer().getPluginManager().registerEvents(new InventoryClickListener(), this);
+
+        //Load command
+        getCommand("shop").setExecutor(new ShopCommand(this));
 
         loadPlugin();
     }
