@@ -82,4 +82,14 @@ public class ShopCategory {
 
         return rows * 9;
     }
+
+    public int getMoveBackButtonIndex(){
+        return getInventorySize() - 5;
+    }
+    public int getPreviousPageButtonIndex(){
+        return getInventorySize() - 6;
+    }
+    public int getNextPageButtonIndex(){
+        return getInventorySize() - 4;
+    }
 }

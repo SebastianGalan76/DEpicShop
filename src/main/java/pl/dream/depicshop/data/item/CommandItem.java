@@ -9,19 +9,19 @@ import java.util.List;
 
 public class CommandItem extends Item {
     private final List<String> commands;
-    private final CommandSender console;
 
     public CommandItem(ItemStack itemStack, List<String> commands) {
         super(itemStack);
 
         this.commands = commands;
-        console = Bukkit.getConsoleSender();
     }
 
     @Override
     public void onClick(LocalPlayer localPlayer) {
         for(String command:commands){
-            Bukkit.dispatchCommand(console, command.replace("{PLAYER}", localPlayer.player.getName()));
+            localPlayer.player.performCommand(command
+                    .replace("{PLAYER}", localPlayer.player.getName())
+                    .replace("/",""));
         }
     }
 }

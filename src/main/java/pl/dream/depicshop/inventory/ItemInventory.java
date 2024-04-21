@@ -8,6 +8,7 @@ import pl.dream.depicshop.Utils;
 import pl.dream.depicshop.data.LocalPlayer;
 import pl.dream.depicshop.data.item.ShopItem;
 import pl.dream.dreamlib.Color;
+import pl.dream.dreamlib.Equipment;
 import pl.dream.dreamlib.ProtectedInventory;
 
 import java.util.List;
@@ -24,8 +25,12 @@ public class ItemInventory extends ProtectedInventory {
         this.plugin = plugin;
         this.shopItem = shopItem;
         this.localPlayer = localPlayer;
-        this.amount = 0;
+        this.amount = 1;
 
+        loadInventory();
+    }
+
+    public void loadInventory(){
         ItemStack addAmountItem = plugin.configController.addAmountItem;
         inv.setItem(10, getConvertedItemStack(addAmountItem.clone(), 1));
         inv.setItem(19, getConvertedItemStack(addAmountItem.clone(), 8));
@@ -43,6 +48,92 @@ public class ItemInventory extends ProtectedInventory {
         inv.setItem(45, localPlayer.getPlayerHead());
         inv.setItem(49, plugin.configController.moveBackItem);
     }
+    public void changeAmount(int value){
+        if(amount==1 && value < 0){
+            Utils.playFailSounds(localPlayer.player);
+            return;
+        }
+        if(amount==1024 && value > 0){
+            Utils.playFailSounds(localPlayer.player);
+            return;
+        }
+
+        amount += value;
+        if(value<1){
+            amount = 1;
+        }
+        if(value>1024){
+            amount=1024;
+        }
+
+        Utils.playSuccessSounds(localPlayer.player);
+        loadInventory();
+    }
+
+    public void buyItem(){
+        if(shopItem.buyPrice==null){
+            //TODO Item cannot be bought - communicat
+
+            Utils.playFailSounds(localPlayer.player);
+            return;
+        }
+
+        double price = shopItem.buyPrice.getValueForAmount(amount);
+        if(price<0) {
+            return;
+        }
+
+        if(shopItem.buyPrice.withdraw(localPlayer, price)){
+            ItemStack itemStack = shopItem.getItemStack();
+            itemStack.setAmount(amount);
+
+            if(!Equipment.addItems(localPlayer.player, itemStack)){
+                //TODO dropped item on the ground - communicat
+            }
+
+            Utils.playSuccessSounds(localPlayer.player);
+            loadInventory();
+        }
+        else{
+            //TODO not enough money - communicat
+            Utils.playFailSounds(localPlayer.player);
+        }
+    }
+
+    public void sellItem(){
+        if(shopItem.sellPrice==null){
+            Utils.playFailSounds(localPlayer.player);
+            return;
+        }
+
+        double price = shopItem.sellPrice.getValueForAmount(amount);
+        if(price<0) {
+            return;
+        }
+
+        ItemStack itemStack = shopItem.getItemStack();
+        if(Equipment.getItemAmount(localPlayer.player, itemStack)>=amount){
+            shopItem.sellPrice.deposit(localPlayer, price);
+
+            itemStack.setAmount(amount);
+            Equipment.takeItems(localPlayer.player, itemStack);
+
+            loadInventory();
+        }
+        else{
+            //TODO not enough items - communicat
+
+            Utils.playFailSounds(localPlayer.player);
+        }
+    }
+
+    public void sellAllItem(){
+        int amountCopy = amount;
+        amount = Equipment.getItemAmount(localPlayer.player, shopItem.getItemStack());
+        sellItem();
+
+        amount = amountCopy;
+    }
 
     private ItemStack getConvertedItemStack(ItemStack itemStack, int value){
         ItemMeta itemMeta = itemStack.getItemMeta();
@@ -59,7 +150,6 @@ public class ItemInventory extends ProtectedInventory {
         itemStack.setItemMeta(itemMeta);
         return itemStack;
     }
-
     private String convertPlaceholders(String text, int value){
         text = text.replace("{VALUE}", String.valueOf(value))
                 .replace("{AMOUNT}", String.valueOf(amount));

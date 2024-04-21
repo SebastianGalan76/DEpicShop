@@ -41,6 +41,8 @@ public class LocalPlayer {
         else{
             Bukkit.getLogger().warning("LocalPlayer#openCategory(). Incorrect shop category name: "+categoryName);
         }
+
+        Utils.playUISounds(player);
     }
 
     public void openItemInventory(ShopItem shopItem){
@@ -48,6 +50,36 @@ public class LocalPlayer {
         openedItemInventory = new ItemInventory(plugin, shopItem, this);
 
         player.openInventory(openedItemInventory.getInventory());
+
+        Utils.playUISounds(player);
+    }
+
+    public void moveBack(){
+        Path.Category category = path.moveBack();
+
+        if(category==null){
+            player.closeInventory();
+            return;
+        }
+
+        openedShopCategory = plugin.categories.get(category.getName());
+        player.openInventory(new CategoryInventory(plugin, this, openedShopCategory).getInventory());
+
+        Utils.playUISounds(player);
+    }
+
+    public void nextPage(){
+        path.openNextPage();
+        player.openInventory(new CategoryInventory(plugin, this, openedShopCategory).getInventory());
+
+        Utils.playUISounds(player);
+    }
+
+    public void previousPage(){
+        path.openPreviousPage();
+        player.openInventory(new CategoryInventory(plugin, this, openedShopCategory).getInventory());
+
+        Utils.playUISounds(player);
     }
 
     public double getBalance(PriceType priceType){

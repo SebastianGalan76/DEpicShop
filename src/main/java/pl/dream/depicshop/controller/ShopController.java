@@ -6,11 +6,8 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 import pl.dream.depicshop.DEpicShop;
 import pl.dream.depicshop.Utils;
-import pl.dream.depicshop.data.item.CategoryItem;
-import pl.dream.depicshop.data.item.IItem;
-import pl.dream.depicshop.data.item.Item;
+import pl.dream.depicshop.data.item.*;
 import pl.dream.depicshop.data.ShopCategory;
-import pl.dream.depicshop.data.item.ShopItem;
 import pl.dream.depicshop.data.price.Price;
 import pl.dream.depicshop.data.price.PriceTime;
 import pl.dream.depicshop.data.price.PriceToken;
@@ -72,13 +69,14 @@ public class ShopController {
         }
         else if(shop.get(path+".pages")!=null){
             for(String pageString:shop.getConfigurationSection(path+".pages").getKeys(false)){
-                loadPage(categoryName, path+".pages."+pageString, category);
+                loadPage(categoryName, path+".pages."+pageString+".items", category);
             }
         }
         else{
             Bukkit.getLogger().warning("Incorrect category configuration: "+categoryName);
         }
 
+        plugin.categories.put(categoryName, category);
         loadedCategories.add(categoryName);
     }
 
@@ -123,18 +121,21 @@ public class ShopController {
             return null;
         }
 
+        //Load item
         ItemStack itemStack = Config.getItemStack(shop, path);
         if(itemStack==null){
             Bukkit.getLogger().warning("Incorrect item: "+path);
             return null;
         }
 
-        String category= shop.getString("category");
+        //Load CategoryItem
+        String category = shop.getString(path + ".category");
         if(category!=null){
             requiredCategories.add(category);
             return new CategoryItem(itemStack, category);
         }
 
+        //Load ShopItem
         String id = categoryName+"/"+pageIndex+"/"+slotIndex+"/"+itemStack.getType();
         ShopItem shopItem = loadShopItem(id, itemStack, path);
         if(shopItem!=null){
@@ -144,6 +145,11 @@ public class ShopController {
             }
 
             Bukkit.getLogger().warning("Incorrect prices for item: "+id);
+        }
+
+        //Load CommandItem
+        if(shop.get(path+".commands")!=null){
+            return new CommandItem(itemStack, shop.getStringList(path+".commands"));
         }
 
         return new Item(itemStack);

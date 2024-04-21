@@ -28,6 +28,10 @@ categories:
             price:
               buy: 400
               sell: 32
+          12:
+            material: STONE
+            commands:
+              - '/ah'
   test:
     title: '&7sada'
     row: 3

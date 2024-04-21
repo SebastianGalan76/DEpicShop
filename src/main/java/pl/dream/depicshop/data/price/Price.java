@@ -1,5 +1,7 @@
 package pl.dream.depicshop.data.price;
 
+import pl.dream.depicshop.data.LocalPlayer;
+
 import java.text.DecimalFormat;
 
 public class Price {
@@ -18,5 +20,19 @@ public class Price {
 
     public double getDefaultValueForAmount(int amount){
         return amount * getDefaultValue();
+    }
+
+    public double getValueForAmount(int amount){
+        return amount * getDefaultValue();
+    }
+
+    public boolean deposit(LocalPlayer localPlayer, double value){
+
+        return true;
+    }
+
+    public boolean withdraw(LocalPlayer localPlayer, double value){
+
+        return false;
     }
 }
