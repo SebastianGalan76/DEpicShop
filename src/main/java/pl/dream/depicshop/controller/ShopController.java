@@ -6,14 +6,12 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
 import pl.dream.depicshop.DEpicShop;
 import pl.dream.depicshop.Utils;
-import pl.dream.depicshop.data.item.CategoryItem;
-import pl.dream.depicshop.data.item.IItem;
-import pl.dream.depicshop.data.item.Item;
+import pl.dream.depicshop.data.item.*;
 import pl.dream.depicshop.data.ShopCategory;
-import pl.dream.depicshop.data.item.ShopItem;
 import pl.dream.depicshop.data.price.Price;
 import pl.dream.depicshop.data.price.PriceTime;
 import pl.dream.depicshop.data.price.PriceToken;
+import pl.dream.dreamlib.Color;
 import pl.dream.dreamlib.Config;
 
 import javax.annotation.Nullable;
@@ -63,7 +61,7 @@ public class ShopController {
     private void loadCategory(String categoryName){
         String path = "categories."+categoryName;
 
-        String title = shop.getString(path+".title", "");
+        String title = Color.fixAll(shop.getString(path+".title", ""));
         int row = shop.getInt(path+".row", 6);
 
         ShopCategory category = new ShopCategory(title, row);
@@ -72,13 +70,14 @@ public class ShopController {
         }
         else if(shop.get(path+".pages")!=null){
             for(String pageString:shop.getConfigurationSection(path+".pages").getKeys(false)){
-                loadPage(categoryName, path+".pages."+pageString, category);
+                loadPage(categoryName, path+".pages."+pageString+".items", category);
             }
         }
         else{
             Bukkit.getLogger().warning("Incorrect category configuration: "+categoryName);
         }
 
+        plugin.categories.put(categoryName, category);
         loadedCategories.add(categoryName);
     }
 
@@ -99,12 +98,13 @@ public class ShopController {
 
                 itemsHashMap.put(index, item);
             }catch (NumberFormatException e){
-                Bukkit.getLogger().warning("NumberFormatException! Incorrect slot index:"+path+"."+indexString);
+                Bukkit.getLogger().warning("NumberFormatException! Incorrect slot index: "+path+"."+indexString);
             }
         }
 
-        IItem[] items = new IItem[maxIndex];
-        for(int i=0;i<maxIndex;i++){
+        int size = maxIndex + 1;
+        IItem[] items = new IItem[size];
+        for(int i=0;i<=maxIndex;i++){
             if(itemsHashMap.containsKey(i)){
                 items[i] = itemsHashMap.get(i);
             }
@@ -123,27 +123,36 @@ public class ShopController {
             return null;
         }
 
+        //Load item
         ItemStack itemStack = Config.getItemStack(shop, path);
         if(itemStack==null){
             Bukkit.getLogger().warning("Incorrect item: "+path);
             return null;
         }
 
-        String category= shop.getString("category");
+        //Load CategoryItem
+        String category = shop.getString(path + ".category");
         if(category!=null){
             requiredCategories.add(category);
             return new CategoryItem(itemStack, category);
         }
 
-        String id = categoryName+"/"+pageIndex+"/"+slotIndex+"/"+itemStack.getType();
+        //Load ShopItem
+        String id = categoryName+"/"+pageIndex+"/"+slotIndex+"/"+itemStack.getType().toString();
         ShopItem shopItem = loadShopItem(id, itemStack, path);
         if(shopItem!=null){
             if(Utils.checkPrices(shopItem.buyPrice, shopItem.sellPrice)){
+                System.out.println("ID "+id);
                 plugin.shopItems.put(id, shopItem);
                 return shopItem;
             }
 
             Bukkit.getLogger().warning("Incorrect prices for item: "+id);
+        }
+
+        //Load CommandItem
+        if(shop.get(path+".commands")!=null){
+            return new CommandItem(itemStack, shop.getStringList(path+".commands"));
         }
 
         return new Item(itemStack);
@@ -212,7 +221,7 @@ public class ShopController {
                 }
                 else if(pathArray[2].equalsIgnoreCase("pages")){
                     pageIndex = pathArray[3];
-                    slotIndex = pathArray[4];
+                    slotIndex = pathArray[5];
                 }
 
                 ShopCategory category = plugin.categories.get(categoryName);
@@ -234,7 +243,7 @@ public class ShopController {
                 }
             }
             else{
-                Bukkit.getLogger().warning("Incorrect alias path"+aliasPaths);
+                Bukkit.getLogger().warning("Incorrect alias path: "+aliasPaths);
             }
         }
 
@@ -276,11 +285,11 @@ public class ShopController {
 
         IItem[] items = category.getPage(aliasPage);
         if(items == null){
-            Bukkit.getLogger().warning("Incorrect alias page"+alias);
+            Bukkit.getLogger().warning("Incorrect alias page: "+ alias);
             return null;
         }
         if(aliasSlot>=items.length){
-            Bukkit.getLogger().warning("Incorrect alias slot"+alias);
+            Bukkit.getLogger().warning("Incorrect alias slot:" + alias);
             return null;
         }
 

@@ -30,7 +30,7 @@ public final class DEpicShop extends JavaPlugin {
         //Load listeners
         getServer().getPluginManager().registerEvents(new PlayerJoinListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerQuitListener(this), this);
-        getServer().getPluginManager().registerEvents(new InventoryClickListener(), this);
+        getServer().getPluginManager().registerEvents(new InventoryClickListener(this), this);
 
         //Load command
         getCommand("shop").setExecutor(new ShopCommand(this));

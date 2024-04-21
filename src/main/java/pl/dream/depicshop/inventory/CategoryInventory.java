@@ -6,6 +6,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import pl.dream.depicshop.DEpicShop;
 import pl.dream.depicshop.data.LocalPlayer;
 import pl.dream.depicshop.data.ShopCategory;
+import pl.dream.depicshop.data.item.CommandItem;
 import pl.dream.depicshop.data.item.IItem;
 import pl.dream.dreamlib.ProtectedInventory;
 
@@ -37,42 +38,33 @@ public class CategoryInventory extends ProtectedInventory {
 
         for(int i=0;i<items.length;i++){
             IItem item = items[i];
+
             if(item!=null){
                 inv.setItem(i, item.getItemStack());
             }
         }
 
-        createFooter();
+        createFooter(category);
     }
 
-    private void createFooter(){
-        inv.setItem(getMoveBackButtonIndex(), convertItem(plugin.configController.moveBackItem.clone()));
+    private void createFooter(ShopCategory category){
+        inv.setItem(category.getMoveBackButtonIndex(), convertItem(plugin.configController.moveBackItem.clone()));
 
         if(currentPage < pageAmount - 1){
-            inv.setItem(getNextPageButtonIndex(), convertItem(plugin.configController.nextPageExistItem.clone()));
+            inv.setItem(category.getNextPageButtonIndex(), convertItem(plugin.configController.nextPageExistItem.clone()));
         }
         else{
-            inv.setItem(getNextPageButtonIndex(), convertItem(plugin.configController.nextPageNotExistItem.clone()));
+            inv.setItem(category.getNextPageButtonIndex(), convertItem(plugin.configController.nextPageNotExistItem.clone()));
         }
 
         if(currentPage > 0){
-            inv.setItem(getPreviousPageButtonIndex(), convertItem(plugin.configController.previousPageExistItem.clone()));
+            inv.setItem(category.getPreviousPageButtonIndex(), convertItem(plugin.configController.previousPageExistItem.clone()));
         }
         else{
-            inv.setItem(getPreviousPageButtonIndex(), convertItem(plugin.configController.previousPageNotExistItem.clone()));
+            inv.setItem(category.getPreviousPageButtonIndex(), convertItem(plugin.configController.previousPageNotExistItem.clone()));
         }
 
         inv.setItem(inventorySize - 9, localPlayer.getPlayerHead());
-    }
-
-    public int getMoveBackButtonIndex(){
-        return inventorySize - 5;
-    }
-    public int getPreviousPageButtonIndex(){
-        return inventorySize - 6;
-    }
-    public int getNextPageButtonIndex(){
-        return inventorySize - 4;
     }
 
     private ItemStack convertItem(ItemStack itemStack){

@@ -53,7 +53,7 @@ public class ShopCategory {
         IItem[] pageItems = getPage(page);
 
         if(pageItems!=null){
-            if(pageItems.length>slot){
+            if(pageItems.length>slot && slot>=0){
                 return pageItems[slot];
             }
         }
@@ -81,5 +81,15 @@ public class ShopCategory {
         }
 
         return rows * 9;
+    }
+
+    public int getMoveBackButtonIndex(){
+        return getInventorySize() - 5;
+    }
+    public int getPreviousPageButtonIndex(){
+        return getInventorySize() - 6;
+    }
+    public int getNextPageButtonIndex(){
+        return getInventorySize() - 4;
     }
 }

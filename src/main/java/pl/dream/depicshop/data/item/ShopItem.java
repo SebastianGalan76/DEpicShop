@@ -19,6 +19,6 @@ public class ShopItem extends Item {
 
     @Override
     public void onClick(LocalPlayer localPlayer) {
-
+        localPlayer.openItemInventory(this);
     }
 }

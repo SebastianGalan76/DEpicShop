@@ -31,9 +31,13 @@ public class LocalPlayer {
     }
 
     public void openCategory(String categoryName){
-        openedShopCategory = plugin.categories.get(categoryName);
+        if(categoryName.equalsIgnoreCase("main")){
+            path.clear();
+        }
 
-        if(openedShopCategory!=null){
+        if(plugin.categories.containsKey(categoryName)){
+            openedShopCategory = plugin.categories.get(categoryName);
+
             path.moveForward(categoryName);
 
             player.openInventory(new CategoryInventory(plugin, this, openedShopCategory).getInventory());
@@ -41,6 +45,8 @@ public class LocalPlayer {
         else{
             Bukkit.getLogger().warning("LocalPlayer#openCategory(). Incorrect shop category name: "+categoryName);
         }
+
+        Utils.playUISounds(player);
     }
 
     public void openItemInventory(ShopItem shopItem){
@@ -48,6 +54,47 @@ public class LocalPlayer {
         openedItemInventory = new ItemInventory(plugin, shopItem, this);
 
         player.openInventory(openedItemInventory.getInventory());
+
+        Utils.playUISounds(player);
+    }
+
+    public void moveBack(){
+        Path.Category category = path.moveBack();
+
+        if(category==null){
+            player.closeInventory();
+            path.clear();
+            return;
+        }
+
+        openedShopCategory = plugin.categories.get(category.getName());
+        player.openInventory(new CategoryInventory(plugin, this, openedShopCategory).getInventory());
+
+        Utils.playUISounds(player);
+    }
+
+    public void nextPage(){
+        if(path.getCurrentPage()<openedShopCategory.getPageAmount() - 1){
+            path.openNextPage();
+            player.openInventory(new CategoryInventory(plugin, this, openedShopCategory).getInventory());
+
+            Utils.playUISounds(player);
+        }
+        else{
+            Utils.playFailSounds(player);
+        }
+    }
+
+    public void previousPage(){
+        if(path.getCurrentPage()>0){
+            path.openPreviousPage();
+            player.openInventory(new CategoryInventory(plugin, this, openedShopCategory).getInventory());
+
+            Utils.playUISounds(player);
+        }
+        else{
+            Utils.playFailSounds(player);
+        }
     }
 
     public double getBalance(PriceType priceType){
