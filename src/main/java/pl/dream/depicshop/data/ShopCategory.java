@@ -53,7 +53,7 @@ public class ShopCategory {
         IItem[] pageItems = getPage(page);
 
         if(pageItems!=null){
-            if(pageItems.length>slot){
+            if(pageItems.length>slot && slot>=0){
                 return pageItems[slot];
             }
         }

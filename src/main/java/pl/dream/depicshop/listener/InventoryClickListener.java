@@ -27,6 +27,10 @@ public class InventoryClickListener implements Listener {
         int slot = e.getSlot();
         if(inventoryHolder instanceof CategoryInventory){
             ShopCategory category = localPlayer.openedShopCategory;
+            if(category==null){
+                return;
+            }
+
             int page = localPlayer.path.getCurrentPage();
 
             if(slot == category.getMoveBackButtonIndex()){
@@ -34,23 +38,11 @@ public class InventoryClickListener implements Listener {
                 return;
             }
             else if(slot == category.getNextPageButtonIndex()){
-                if(page<category.getPageAmount()){
-                    localPlayer.nextPage();
-                }
-                else{
-                    Utils.playFailSounds(localPlayer.player);
-                }
-
+                localPlayer.nextPage();
                 return;
             }
             else if(slot == category.getPreviousPageButtonIndex()){
-                if(page>0){
-                    localPlayer.previousPage();
-                }
-                else{
-                    Utils.playFailSounds(localPlayer.player);
-                }
-
+                localPlayer.previousPage();
                 return;
             }
 

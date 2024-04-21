@@ -6,6 +6,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 import pl.dream.depicshop.DEpicShop;
 import pl.dream.depicshop.data.LocalPlayer;
 import pl.dream.depicshop.data.ShopCategory;
+import pl.dream.depicshop.data.item.CommandItem;
 import pl.dream.depicshop.data.item.IItem;
 import pl.dream.dreamlib.ProtectedInventory;
 
@@ -37,6 +38,7 @@ public class CategoryInventory extends ProtectedInventory {
 
         for(int i=0;i<items.length;i++){
             IItem item = items[i];
+
             if(item!=null){
                 inv.setItem(i, item.getItemStack());
             }

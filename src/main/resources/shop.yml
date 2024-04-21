@@ -22,13 +22,17 @@ categories:
             name: '&cSuper oferty'
             category: promotion
           10:
-            alias: test/0/5
+            alias: test/0/5/DIAMOND
           11:
             material: IRON_PICKAXE
             price:
               buy: 400
               sell: 32
           12:
+            material: EMERALD
+          37:
+            material: DIAMOND
+          7:
             material: STONE
             commands:
               - '/ah'
@@ -43,6 +47,8 @@ categories:
             price:
               buy: 400
               sell: 32
+          8:
+            material: DIRT
       1:
         items:
           6:

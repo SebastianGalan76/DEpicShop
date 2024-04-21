@@ -11,6 +11,7 @@ import pl.dream.depicshop.data.ShopCategory;
 import pl.dream.depicshop.data.price.Price;
 import pl.dream.depicshop.data.price.PriceTime;
 import pl.dream.depicshop.data.price.PriceToken;
+import pl.dream.dreamlib.Color;
 import pl.dream.dreamlib.Config;
 
 import javax.annotation.Nullable;
@@ -60,7 +61,7 @@ public class ShopController {
     private void loadCategory(String categoryName){
         String path = "categories."+categoryName;
 
-        String title = shop.getString(path+".title", "");
+        String title = Color.fixAll(shop.getString(path+".title", ""));
         int row = shop.getInt(path+".row", 6);
 
         ShopCategory category = new ShopCategory(title, row);
@@ -97,12 +98,13 @@ public class ShopController {
 
                 itemsHashMap.put(index, item);
             }catch (NumberFormatException e){
-                Bukkit.getLogger().warning("NumberFormatException! Incorrect slot index:"+path+"."+indexString);
+                Bukkit.getLogger().warning("NumberFormatException! Incorrect slot index: "+path+"."+indexString);
             }
         }
 
-        IItem[] items = new IItem[maxIndex];
-        for(int i=0;i<maxIndex;i++){
+        int size = maxIndex + 1;
+        IItem[] items = new IItem[size];
+        for(int i=0;i<=maxIndex;i++){
             if(itemsHashMap.containsKey(i)){
                 items[i] = itemsHashMap.get(i);
             }
@@ -136,10 +138,11 @@ public class ShopController {
         }
 
         //Load ShopItem
-        String id = categoryName+"/"+pageIndex+"/"+slotIndex+"/"+itemStack.getType();
+        String id = categoryName+"/"+pageIndex+"/"+slotIndex+"/"+itemStack.getType().toString();
         ShopItem shopItem = loadShopItem(id, itemStack, path);
         if(shopItem!=null){
             if(Utils.checkPrices(shopItem.buyPrice, shopItem.sellPrice)){
+                System.out.println("ID "+id);
                 plugin.shopItems.put(id, shopItem);
                 return shopItem;
             }
@@ -218,7 +221,7 @@ public class ShopController {
                 }
                 else if(pathArray[2].equalsIgnoreCase("pages")){
                     pageIndex = pathArray[3];
-                    slotIndex = pathArray[4];
+                    slotIndex = pathArray[5];
                 }
 
                 ShopCategory category = plugin.categories.get(categoryName);
@@ -240,7 +243,7 @@ public class ShopController {
                 }
             }
             else{
-                Bukkit.getLogger().warning("Incorrect alias path"+aliasPaths);
+                Bukkit.getLogger().warning("Incorrect alias path: "+aliasPaths);
             }
         }
 
@@ -282,11 +285,11 @@ public class ShopController {
 
         IItem[] items = category.getPage(aliasPage);
         if(items == null){
-            Bukkit.getLogger().warning("Incorrect alias page"+alias);
+            Bukkit.getLogger().warning("Incorrect alias page: "+ alias);
             return null;
         }
         if(aliasSlot>=items.length){
-            Bukkit.getLogger().warning("Incorrect alias slot"+alias);
+            Bukkit.getLogger().warning("Incorrect alias slot:" + alias);
             return null;
         }
 
